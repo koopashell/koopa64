@@ -17,8 +17,8 @@
 #include "level_table.h"
 #include "rumble_init.h"
 
-#define MIN_SWIM_STRENGTH 160
-#define MIN_SWIM_SPEED 36.0f
+#define MIN_SWIM_STRENGTH 360
+#define MIN_SWIM_SPEED 16.0f
 
 static s16 sWasAtSurface = FALSE;
 static s16 sSwimStrength = MIN_SWIM_STRENGTH;
