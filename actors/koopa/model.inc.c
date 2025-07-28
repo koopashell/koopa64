@@ -46,7 +46,8 @@ static const Lights1 koopa_seg6_lights_06002618 = gdSPDefLights1(
 // 0x06002630
 static const Lights1 koopa_seg6_lights_06002630 = gdSPDefLights1(
     0x7f, 0x7f, 0x7f,
-    0xff, 0xff, 0xff, 0x28, 0x28, 0x28
+    0xff, 0xff, 0xff,
+    0x28, 0x28, 0x28
 );
 
 // 0x06002648
@@ -2072,8 +2073,8 @@ const Gfx koopa_seg6_dl_0600C498[] = {
     gsSPVertex(koopa_seg6_vertex_0600B560, 9, 0),
     gsSP2Triangles( 0,  1,  2, 0x0,  3,  4,  5, 0x0),
     gsSP1Triangle( 6,  7,  8, 0x0),
-    gsSPLight(koopa_seg6_lights_06002630 + 0x20, 1),
-    gsSPLight(koopa_seg6_lights_06002630 + 0x18, 2),
+    gsSPLight(&koopa_seg6_lights_06002630.l + 0x20, 1),
+    gsSPLight(&koopa_seg6_lights_06002630.a + 0x18, 2),
     gsSPVertex(koopa_seg6_vertex_0600B5F0, 15, 0),
     gsSP2Triangles( 0,  1,  2, 0x0,  3,  4,  5, 0x0),
     gsSP2Triangles( 6,  7,  0, 0x0,  8,  5,  9, 0x0),
