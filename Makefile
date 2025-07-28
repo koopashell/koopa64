@@ -23,7 +23,7 @@ TARGET_N64 ?= 1
 #   ido - uses the SGI IRIS Development Option compiler, which is used to build
 #         an original matching N64 ROM
 #   gcc - uses the GNU C Compiler
-COMPILER ?= ido
+COMPILER ?= gcc
 $(eval $(call validate-option,COMPILER,ido gcc))
 
 
@@ -44,8 +44,8 @@ ifeq      ($(VERSION),jp)
   VERSION_SH_CN  ?= false
 else ifeq ($(VERSION),us)
   DEFINES   += VERSION_US=1
-  OPT_FLAGS := -g
-  GRUCODE   ?= f3d_old
+  OPT_FLAGS := -Ofast
+  GRUCODE   ?= f3dex2
   VERSION_JP_US  ?= true
   VERSION_SH_CN  ?= false
 else ifeq ($(VERSION),eu)
