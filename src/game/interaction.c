@@ -1691,13 +1691,13 @@ u32 mario_can_talk(struct MarioState *m, u32 arg) {
 #ifdef VERSION_JP
 #define READ_MASK (INPUT_B_PRESSED)
 #else
-#define READ_MASK (INPUT_B_PRESSED | INPUT_A_PRESSED)
+#define READ_MASK (INPUT_B_PRESSED)
 #endif
 
 #ifdef VERSION_JP
 #define SIGN_RANGE 0x38E3
 #else
-#define SIGN_RANGE 0x4000
+#define SIGN_RANGE 0x2000
 #endif
 
 u32 check_read_sign(struct MarioState *m, struct Object *o) {
