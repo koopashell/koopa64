@@ -725,7 +725,7 @@ void painting_calculate_triangle_normals(s16 *mesh, s16 numVtx, s16 numTris) {
     for (i = 0; i < numTris; i++) {
         s16 tri = numVtx * 3 + i * 3 + 2; // Add 2 because of the 2 length entries preceding the list
 
-        register s16 xyz[3][3];
+        s16 xyz[3][3];
         for (j = 0; j < 3; j++) {
             register s16 v = mesh[tri + j];
             xyz[j][0] = gPaintingMesh[v].pos[0];
