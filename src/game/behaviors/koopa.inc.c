@@ -565,6 +565,10 @@ static s32 koopa_the_quick_detect_bowling_ball(void) {
                     //! This can go negative and is unbounded. If placed next to
                     //  oob, ktq can get PU speed.
                     o->oForwardVel -= 2.0f;
+                    if (o->oForwardVel < 0.0f)
+                    {
+                        o->oForwardVel = 0.0f;
+                    }
                 }
             }
         } else if (distToBall < 300.0f && ballSpeedInKoopaRunDir > o->oForwardVel) {
