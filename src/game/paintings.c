@@ -588,6 +588,9 @@ void painting_update_ripple_state(struct Painting *painting) {
         //! imprecision?) and the painting will stop rippling. This happens to HMC, DDD, and
         //! CotMC.
         painting->rippleTimer += 1.0;
+        if (painting->rippleTimer == 1 << 24) {
+            painting->rippleTimer = 0.0f;
+        }
     }
     if (painting->rippleTrigger == RIPPLE_TRIGGER_PROXIMITY) {
         // if the painting is barely rippling, make it stop rippling
@@ -714,33 +717,26 @@ void painting_generate_mesh(struct Painting *painting, s16 *mesh, s16 numTris) {
  * The mesh used in game, seg2_painting_triangle_mesh, is in bin/segment2.c.
  */
 void painting_calculate_triangle_normals(s16 *mesh, s16 numVtx, s16 numTris) {
-    s16 i;
+    s16 i, j;
 
     gPaintingTriNorms = mem_pool_alloc(gEffectsMemoryPool, numTris * sizeof(Vec3f));
     if (gPaintingTriNorms == NULL) {
     }
     for (i = 0; i < numTris; i++) {
         s16 tri = numVtx * 3 + i * 3 + 2; // Add 2 because of the 2 length entries preceding the list
-        s16 v0 = mesh[tri];
-        s16 v1 = mesh[tri + 1];
-        s16 v2 = mesh[tri + 2];
 
-        f32 x0 = gPaintingMesh[v0].pos[0];
-        f32 y0 = gPaintingMesh[v0].pos[1];
-        f32 z0 = gPaintingMesh[v0].pos[2];
-
-        f32 x1 = gPaintingMesh[v1].pos[0];
-        f32 y1 = gPaintingMesh[v1].pos[1];
-        f32 z1 = gPaintingMesh[v1].pos[2];
-
-        f32 x2 = gPaintingMesh[v2].pos[0];
-        f32 y2 = gPaintingMesh[v2].pos[1];
-        f32 z2 = gPaintingMesh[v2].pos[2];
+        register s16 xyz[3][3];
+        for (j = 0; j < 3; j++) {
+            register s16 v = mesh[tri + j];
+            xyz[j][0] = gPaintingMesh[v].pos[0];
+            xyz[j][1] = gPaintingMesh[v].pos[1];
+            xyz[j][2] = gPaintingMesh[v].pos[2];
+        }
 
         // Cross product to find each triangle's normal vector
-        gPaintingTriNorms[i][0] = (y1 - y0) * (z2 - z1) - (z1 - z0) * (y2 - y1);
-        gPaintingTriNorms[i][1] = (z1 - z0) * (x2 - x1) - (x1 - x0) * (z2 - z1);
-        gPaintingTriNorms[i][2] = (x1 - x0) * (y2 - y1) - (y1 - y0) * (x2 - x1);
+        gPaintingTriNorms[i][0] = (xyz[1][1] - xyz[0][1]) * (xyz[2][2] - xyz[1][2]) - (xyz[1][2] - xyz[0][2]) * (xyz[2][1] - xyz[1][1]);
+        gPaintingTriNorms[i][1] = (xyz[1][2] - xyz[0][2]) * (xyz[2][0] - xyz[1][0]) - (xyz[1][0] - xyz[0][0]) * (xyz[2][2] - xyz[1][2]);
+        gPaintingTriNorms[i][2] = (xyz[1][0] - xyz[0][0]) * (xyz[2][1] - xyz[1][1]) - (xyz[1][1] - xyz[0][1]) * (xyz[2][0] - xyz[1][0]);
     }
 }
 
